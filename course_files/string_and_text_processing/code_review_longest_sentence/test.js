@@ -1,16 +1,16 @@
-const LOOKBEHIND_REGEX = /(?<=[?.!])/g;
+const SENTENCE_DELIMITER = /(?<=[?.!])/g;
 
-// Split the text into array of sentences using lookbehind regex
+// splits text into an array of sentences, as defined by the delimiter regex.
 const getSentences = function(text) {
-  return (text.split(LOOKBEHIND_REGEX).map(
+  return (text.split(SENTENCE_DELIMITER).map(
     sentence => sentence.trim()
   ));
 };
 
-// return a count of words in a sentence`
-const wordCount = sentence => sentence.split(' ').length;
+// returns a count of words in a sentence`
+const wordCount = sentence => sentence.split(/\s+/).length;
 
-// Helper callback function to be used with sort function
+// Returns -1, 0 or 1 based on the difference in word count.
 const byLongest = (s1, s2) => wordCount(s2) - wordCount(s1);
 
 // Sorts an array of sentences by length, returning the longest
@@ -63,3 +63,4 @@ longestSentence("What's up, \"Doc\"?    The brown fox is superlative!");
 
 longestSentence("The brown fox is superlative! To be or not to be?");
 longestSentence("To be or not to be? The brown fox is superlative!");
+longestSentence("Hello there! Why  not? Goodbye.");
