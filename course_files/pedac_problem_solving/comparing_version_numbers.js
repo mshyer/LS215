@@ -24,8 +24,11 @@
 //  3. if nothing is returned and the arrays are the same lenght, return 0
 
 function invalidString(string) {
-  let regx = /[^0-9]/;
-  return regx.test(string);
+  let onlyNumbers = /[^0-9.]/;
+  let noRepeatDecimal = /\.\./;
+  let noBeginEndDecimals = /(^\.|\.$)/;
+  return onlyNumbers.test(string) || noRepeatDecimal.test(string)
+    || noBeginEndDecimals.test(string);
 }
 
 function fillZeros(arr) {
@@ -47,11 +50,11 @@ function equalizeLengths(arr1, arr2) {
 }
 
 function compareVersions(version1, version2) {
-  let numArr1 = version1.split('.');
-  let numArr2 = version2.split('.');
-  if ([...numArr1, ...numArr2].some(string => invalidString(string))) {
+  if (invalidString(version1) || invalidString(version2)) {
     return null;
   }
+  let numArr1 = version1.split('.');
+  let numArr2 = version2.split('.');
   if (numArr1.length !== numArr2.length) {
     equalizeLengths(numArr1, numArr2);
   }
@@ -69,6 +72,7 @@ function compareVersions(version1, version2) {
 
 
 // Test cases
+console.log(compareVersions('.0', '0.0'));
 console.log(compareVersions('0.1', '1'));
 console.log(compareVersions('0.1', '0'));
 console.log(compareVersions('0..1', '1'));
